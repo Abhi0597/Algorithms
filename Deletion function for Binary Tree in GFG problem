@@ -1,0 +1,52 @@
+//https://practice.geeksforgeeks.org/problems/deletion-in-a-binary-tree/1/
+
+public int findLastNodeVal(Node root){
+        Node lastNodeParent = null;
+        if(root == null) return -1;
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(root);
+        while(!q.isEmpty()){
+            Node currNode = q.poll();
+            if(currNode.left!=null){
+                lastNodeParent = currNode;
+                q.add(currNode.left);
+            }
+            if(currNode.right!=null){
+                lastNodeParent = currNode;
+                q.add(currNode.right);
+            }
+        }
+        if(lastNodeParent.right!=null){
+            int temp = lastNodeParent.right.data;
+            lastNodeParent.right = null;
+            return temp;
+        }
+        if(lastNodeParent.left!=null){
+            int temp = lastNodeParent.left.data;
+            lastNodeParent.left = null;
+            return temp;
+        }
+        return -1;
+    }
+    
+    public void deletionBTHelper(Node root, int key, int val){
+        if(root == null) return;
+       
+        if(root.data == key){
+            root.data = val;
+            return;
+        }
+        deletionBTHelper(root.left,key,val);
+        deletionBTHelper(root.right,key,val);
+    }
+    
+    public Node deletionBT(Node root, int key){
+        //Write your code here and return the root of the changed tree
+        // Find value present at last Node
+        int val =findLastNodeVal(root);
+        // If root is last Node then we need to remove root
+        if(val==-1) return null;
+        deletionBTHelper(root,key,val);
+        return root;
+        
+    }
