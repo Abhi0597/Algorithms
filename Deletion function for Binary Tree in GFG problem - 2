@@ -1,0 +1,29 @@
+// https://practice.geeksforgeeks.org/problems/deletion-in-a-binary-tree/1/
+public Node deletionBT(Node root, int key){
+        if(root==null) return root;
+        Node lastNode = null;
+        Node keyNode = null;
+        Node lastNodeParent = null;
+        Queue<Node>q = new LinkedList<Node>();
+        q.add(root);
+        while(!q.isEmpty()){
+            lastNode = q.poll();
+            if(lastNode.data == key)
+               keyNode = lastNode;
+            if(lastNode.left!=null){
+                lastNodeParent = lastNode;
+                q.add(lastNode.left);
+            }
+            if(lastNode.right!=null){
+                lastNodeParent = lastNode;
+                q.add(lastNode.right);
+            }
+        }
+        if(keyNode !=null){
+            keyNode.data = lastNode.data;
+            if(lastNodeParent.right==lastNode) lastNodeParent.right = null;
+            if(lastNodeParent.left==lastNode) lastNodeParent.left = null;
+        }
+        return root;
+        
+    }
